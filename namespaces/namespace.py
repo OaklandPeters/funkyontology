@@ -27,7 +27,7 @@ from logical import SetLogical, SetNesting
 
 
 
-class Namespace(SetLogical):
+class NamespaceInterface(Mapping, SetLogical):
     """
     This is for a non-mutable namespace
 
@@ -37,41 +37,22 @@ class Namespace(SetLogical):
     """
     __metaclass__ = ABCMeta
 
-    @abstractmethod
-    def intersection(self, other):
-        """
-        __and__, orderedIntersection, ~inheritance
 
-        """
+
+    @abstractmethod
+    def __contains__(self, value):
         pass
-
-    @abstractmethod
-    def union(self, other):
-        pass
-
-    @abstractmethod
-    def inversion(self, other):
-        """
-        __sub__, Type Inversion
-        ... unclear to me whether this should be unary (-A) or binary (A-B)
-        NOT: 
-        __sub__ and __rsub__ are different
-        since A - B =/= B - A, for sets
-        """
-
-    @abstractmethod
     def has(self, other):
-        """
-        __contains__, hasMethod
-        """
-        pass
+        return self.__contains__(other)
 
     @abstractmethod
-    def get(self, attr):
-        """
-        __getitem__, getMethod
-        """
+    def __getitem__(self, key):
         pass
+    def get(self, key, default=None):
+        try:
+            return self.__getitem__(key)
+        except KeyError, AttributeError:
+            return default
 
     # ------  Mapping functions
     @abstractmethod
@@ -90,7 +71,7 @@ class Namespace(SetLogical):
         pass
 
 
-class ChainedNamespace(Namespace, SetNesting):
+class ChainedNamespaceInterface(NamespaceInterface, SetNesting):
     """
     This sort of behavior is most frequently used for:
     (1) multi-layered configuraiton overrides
