@@ -1,0 +1,4 @@
+- Refactor class hierarchy for Namespace:
+    - Namespace: root class. HIGHLY abstract
+    - FlatNamespace: 
+    - ChainedNamespace:
