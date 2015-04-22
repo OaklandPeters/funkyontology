@@ -19,12 +19,16 @@ abstract_extension(klass, interface):
 
 
 """
-
-
 from abc import ABCMeta, abstractproperty, abstractmethod
 
 from logical import SetLogical, SetNesting
 
+__all__ = [
+    'NamespaceInterface',
+    'ChainedNamespaceInterface',
+    'ShallowNamespace',
+    'ChainedNamespace',
+]
 
 
 class NamespaceInterface(Mapping, SetLogical):
@@ -119,3 +123,9 @@ class ChainedNamespaceInterface(NamespaceInterface, SetNesting):
         Returns a Namespace (not chained)
         """
 
+
+class ShallowNamespace(NamespaceInterface):
+    pass
+
+class ChainedNamespace(ChainedNamespaceInterface):
+    pass
